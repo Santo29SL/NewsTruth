@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Test headline",
+    "content_snippet": "Short content",
+    "url": "",
+    "author": "",
+    "heuristics_raw": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.3,
+      0.0,
+      0.0
+    ],
+    "heuristics_scaled": [
+      0.0,
+      0.0,
+      -1.0,
+      0.0,
+      0.0,
+      -0.9520497737124725,
+      -2.74933627547651,
+      -1.0724858087363978,
+      0.0
+    ],
+    "internal": {
+      "label": "Real",
+      "prob": 0.7368907633010955,
+      "raw": 
