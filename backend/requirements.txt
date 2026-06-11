@@ -17,5 +17,5 @@ smart-open==7.0.0
 gunicorn==20.1.0
 
 # --- TensorFlow for Apple Silicon (GPU optimized) ---
-tensorflow-macos==2.14.0
-tensorflow-metal==1.1.0
+# tensorflow-macos==2.14.0
+# tensorflow-metal==1.1.0
