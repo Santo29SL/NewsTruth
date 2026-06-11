@@ -1,0 +1,36 @@
+# Virtual Environment
+venv/
+ENV/
+env/
+
+# Python Bytecode and cache files
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Credentials and Environment variables (CRITICAL: Never commit these to Git)
+.env
+backend/.env
+ServiceAccountKeyv3.json
+backend/ServiceAccountKeyv3.json
+serviceAccountKey.json
+backend/serviceAccountKey.json
+
+# Local dataset caches, verdicts or temporary logs
+backend/models/flagged_local.jsonl
+backend/data/flagged_local.json
+backend/data/verdicts_local.json
+
+# macOS specific files
+.DS_Store
+
+# Generated machine learning models (optional to ignore, typically ignored in production to force rebuild)
+backend/models/*.pkl
+backend/models/*.model
+backend/models/*.h5
+
+# Segregated evaluation results (reports & confusion matrices)
+test_reports/reports/
+test_reports/confusion_matrices/
+backend/data/news_dataset_cleaned.csv

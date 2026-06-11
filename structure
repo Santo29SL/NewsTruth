@@ -1,0 +1,19 @@
+newstruth_v3/
+├─ backend/
+│  ├─ app.py
+│  ├─ model_training.py
+│  ├─ requirements.txt
+│  ├─ run_demo.sh
+│  ├─ models/                     # created by training
+│  ├─ services/
+│  │  ├─ gemini_client.py
+│  │  └─ firebase_client.py
+│  └─ data/
+│     ├─ news_dataset_cleaned.csv  # your dataset (copy it here)
+│     ├─ major_sources.json
+│     └─ flagged_local.json
+├─ templates/
+│  └─ index.html
+├─ static/
+│  └─ style.css
+└─ README.md

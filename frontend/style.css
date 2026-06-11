@@ -1,0 +1,307 @@
+/* Clean, functional minimalist style - high contrast, neutral colors */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  background-color: #f3f4f6;
+  color: #111827;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Ticker / Rolling Notice Bar */
+.ticker-container {
+  background-color: #f9fafb;
+  border-bottom: 1px solid #cccccc;
+  padding: 8px 10px;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: bold;
+  color: #ef4444; /* red text for disclaimer warning */
+}
+
+.ticker-text {
+  display: inline-block;
+  animation: marquee 20s linear infinite;
+  padding-left: 100%;
+}
+
+@keyframes marquee {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-100%, 0, 0); }
+}
+
+/* Header styling */
+header {
+  text-align: center;
+  padding-bottom: 20px;
+  margin-top: 10px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #cccccc;
+}
+
+/* Bubbly Logo wrapper style */
+.logo-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #e5e7eb;
+  padding: 8px 20px;
+  border-radius: 9999px; /* Bubbly shape */
+  border: 2px solid #374151;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.logo-main {
+  color: #111827;
+  font-size: 26px;
+  font-weight: 900;
+  margin: 0;
+  letter-spacing: -0.025em;
+}
+
+.logo-bubble {
+  background-color: #374151;
+  color: #ffffff;
+  padding: 3px 12px;
+  border-radius: 9999px; /* Bubbly tag */
+  font-size: 18px;
+  font-weight: 800;
+  display: inline-block;
+}
+
+header p {
+  margin: 8px 0 0 0;
+  color: #4b5563;
+  font-size: 14px;
+}
+
+/* Standard Box panels - no rounded corners, no transparency */
+.panel {
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.panel-title {
+  font-size: 16px;
+  font-weight: bold;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 8px;
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #111827;
+}
+
+/* Inputs and Forms */
+label {
+  display: block;
+  font-weight: bold;
+  font-size: 13px;
+  margin-bottom: 5px;
+  color: #374151;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.input-field {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 12px;
+  border: 1px solid #cccccc;
+  font-size: 14px;
+  background-color: #ffffff;
+}
+
+.input-field:focus {
+  outline: 2px solid #374151;
+}
+
+/* Neutral Accent Transparent Buttons - no red background */
+.btn {
+  background-color: transparent;
+  color: #374151;
+  border: 2px solid #374151;
+  font-weight: bold;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #374151;
+  color: #ffffff;
+}
+
+.btn:disabled {
+  background-color: transparent;
+  border-color: #cccccc;
+  color: #999999;
+  cursor: not-allowed;
+}
+
+/* Color codes */
+.bg-real {
+  background-color: #10b981 !important;
+  color: #ffffff !important;
+}
+
+.bg-fake {
+  background-color: #ef4444 !important;
+  color: #ffffff !important;
+}
+
+.bg-uncertain {
+  background-color: #f59e0b !important;
+  color: #ffffff !important;
+}
+
+/* Badges - simple text badges with solid backgrounds and sharp corners */
+.badge {
+  display: inline-block;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* Status Banner at top */
+.status-banner {
+  background-color: #ffffff;
+  border-left: 5px solid #10b981;
+  border-top: 1px solid #cccccc;
+  border-right: 1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
+  padding: 12px 15px;
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+
+.status-banner.training {
+  border-left-color: #f59e0b;
+}
+
+/* Mismatch Banner */
+.mismatch-banner {
+  background-color: #fef3c7;
+  border: 1px solid #f59e0b;
+  color: #b45309;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.mismatch-banner h4 {
+  margin: 0 0 5px 0;
+  font-size: 15px;
+}
+
+.mismatch-banner p {
+  margin: 0;
+  font-size: 13px;
+}
+
+/* Progress bar */
+.progress-container {
+  background-color: #e5e7eb;
+  height: 12px;
+  border: 1px solid #cccccc;
+  margin-top: 5px;
+}
+
+.progress-bar-fill {
+  background-color: #10b981;
+  height: 100%;
+  width: 0%;
+}
+
+/* Grid helper */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  .grid-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.comparison-box {
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  padding: 15px;
+}
+
+/* History log */
+.history-item {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+.history-item:hover {
+  border-color: #cccccc;
+}
+
+.flag-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.btn-flag-real {
+  background-color: #10b981;
+  color: white;
+  border: none;
+  font-weight: bold;
+  padding: 8px 15px;
+  font-size: 12px;
+  cursor: pointer;
+  flex: 1;
+}
+
+.btn-flag-fake {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  font-weight: bold;
+  padding: 8px 15px;
+  font-size: 12px;
+  cursor: pointer;
+  flex: 1;
+}
+
+.btn-flag-real:hover { background-color: #059669; }
+.btn-flag-fake:hover { background-color: #dc2626; }
+
+/* Footer styling */
+footer {
+  text-align: center;
+  padding: 20px 0 10px 0;
+  margin-top: 30px;
+  border-top: 1px solid #cccccc;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+footer strong {
+  color: #374151;
+}

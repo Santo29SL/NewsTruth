@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NewsTruth v3 • Fake News Detector</title>
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <!-- Educational Disclaimer Marquee Ticker -->
+  <div class="ticker-container">
+    <div class="ticker-text">
+      ATTENTION: This is strictly a sample educational project work database pipeline. It is not to scale and is not intended for real-world news validation or production use.
+    </div>
+  </div>
+
+  <div class="container">
+    
+    <!-- Header with Bubbly Logo -->
+    <header>
+      <div class="logo-container">
+        <span class="logo-main">News</span>
+        <span class="logo-bubble">Truth</span>
+      </div>
+      <p>Local Classifier + Gemini API Cross-Verification Pipeline</p>
+    </header>
+
+    <!-- Retraining Status Banner -->
+    <div id="training-widget" class="status-banner">
+      <div>
+        <strong>System Status:</strong> <span id="status-text">Engine Ready. Classifier is fully trained.</span>
+      </div>
+      <div id="status-badge" class="badge bg-real">OPTIMIZED</div>
+    </div>
+
+    <!-- main section -->
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+      
+      <!-- Input Panel -->
+      <section class="panel">
+        <h3 class="panel-title">Verify News Claim</h3>
+        <form id="check-form">
+          <div class="form-group">
+            <label for="title">Headline / Claim *</label>
+            <textarea id="title" class="input-field" rows="2" required placeholder="Enter the news headline or statement to verify..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="content">Article Content (Optional)</label>
+            <textarea id="content" class="input-field" rows="4" placeholder="Paste the full article body or details here to evaluate..."></textarea>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label for="url">Article URL (Optional)</label>
+              <input id="url" type="url" class="input-field" placeholder="https://example.com/news-story..." />
+            </div>
+            <div class="form-group">
+              <label for="author">Author / Source (Optional)</label>
+              <input id="author" type="text" class="input-field" placeholder="e.g. Associated Press, Reuters" />
+            </div>
+          </div>
+
+          <div style="margin-top: 15px;">
+            <button id="submit-btn" type="submit" class="btn">Verify Integrity</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Verification Results Panel -->
+      <section id="result-card" class="panel" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #374151; padding-bottom: 10px; margin-bottom: 15px; gap: 10px;">
+          <h2 id="result-title" style="margin: 0; font-size: 18px; font-weight: bold; color: #111827;">Article Headline</h2>
+          <div id="result-badge-container">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Mismatch Alert Banner -->
+        <div id="mismatch-banner" class="mismatch-banner" style="display: none;">
+          <h4>⚠️ Prediction Mismatch Detected</h4>
+          <p>
+            The local model disagrees with the Gemini API cross-check. The entry has been logged to retrain the local classifier.
+          </p>
+        </div>
+
+        <!-- Verdict Comparison Grid -->
+        <div class="grid-2" style="margin-bottom: 20px;">
+          <!-- Local AI Model Panel -->
+          <div class="comparison-box">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <strong style="font-size: 14px;">Local ML Model</strong>
+              <span id="local-badge" class="badge">Pending</span>
+            </div>
+            <div>
+              <label>Model Confidence Index</label>
+              <div class="progress-container">
+                <div id="confidence-bar" class="progress-bar-fill"></div>
+              </div>
+              <div id="local-confidence" style="text-align: right; font-size: 12px; font-weight: bold; margin-top: 4px;">0%</div>
+            </div>
+          </div>
+
+          <!-- Gemini API Panel -->
+          <div class="comparison-box">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <strong style="font-size: 14px;">Gemini API Cross-Check</strong>
+              <span id="gemini-badge" class="badge">Pending</span>
+            </div>
+            <div style="background-color: #f9fafb; border: 1px solid #e5e7eb; padding: 10px; font-size: 13px; max-height: 100px; overflow-y: auto;">
+              <strong style="color: #4b5563; font-size: 11px; display: block; margin-bottom: 3px;">JUSTIFICATION:</strong>
+              <span id="gemini-justification" style="color: #374151;">No explanation.</span>
+            </div>
+            <div style="font-size: 11px; color: #6b7280; text-align: right; margin-top: 10px;">
+              Engine: <span id="gemini-source" style="font-weight: bold;">gemini-1.5-flash</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Panel: Flag Correction & Retrain -->
+        <div style="padding-top: 15px; border-top: 1px solid #cccccc;">
+          <strong style="font-size: 14px; display: block;">Report Prediction Correction:</strong>
+          <p style="font-size: 12px; color: #6b7280; margin: 3px 0 12px 0;">
+            If the classification is incorrect, submit the correct label. The item will be cross-verified and retrained.
+          </p>
+          <div class="flag-group">
+            <button onclick="flagNews('Real')" class="btn-flag-real">Correct Label is REAL</button>
+            <button onclick="flagNews('Fake')" class="btn-flag-fake">Correct Label is FAKE</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- History -->
+      <section class="panel">
+        <h3 class="panel-title">Verification Logs (Current Session)</h3>
+        <div id="history">
+          <p style="font-size: 13px; color: #6b7280; text-align: center; margin: 0; padding: 10px 0;">No claim checks recorded.</p>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>Developed by <strong>Santhosh S L</strong></p>
+    </footer>
+
+  </div>
+
+  <script>
+    let isCurrentlyTraining = false;
+    let pollIntervalId = null;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      checkTrainingStatus();
+      startPollingStatus();
+    });
+
+    document.getElementById('check-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const title = document.getElementById('title').value.trim();
+      const content = document.getElementById('content').value.trim();
+      const url = document.getElementById('url').value.trim();
+      const author = document.getElementById('author').value.trim();
+
+      if (!title) {
+        alert('Please enter a headline/claim.');
+        return;
+      }
+
+      const submitBtn = document.getElementById('submit-btn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Verifying claim integrity...';
+
+      try {
+        const resp = await fetch('/predict', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ title, content, url, author })
+        });
+        
+        const data = await resp.json();
+        
+        if (data.status !== 'ok') {
+          alert('Verification error: ' + (data.message || 'Unknown error'));
+          return;
+        }
+
+        // Display results
+        document.getElementById('result-title').textContent = title;
+        
+        const badgeContainer = document.getElementById('result-badge-container');
+        const finalVer = data.final_verdict || data.model_prediction;
+        
+        if (finalVer === 'Real') {
+          badgeContainer.innerHTML = `<span class="badge bg-real">Real Claim</span>`;
+        } else if (finalVer === 'Fake') {
+          badgeContainer.innerHTML = `<span class="badge bg-fake">Fake News</span>`;
+        } else {
+          badgeContainer.innerHTML = `<span class="badge bg-uncertain">Uncertain</span>`;
+        }
+
+        // Local ML prediction update
+        const localBadge = document.getElementById('local-badge');
+        localBadge.textContent = data.model_prediction;
+        localBadge.className = `badge ` + (data.model_prediction === 'Real' ? 'bg-real' : 'bg-fake');
+        
+        const confidenceVal = data.model_confidence || 0;
+        document.getElementById('local-confidence').textContent = confidenceVal + '%';
+        document.getElementById('confidence-bar').style.width = confidenceVal + '%';
+
+        // Gemini API prediction update
+        const gemVerdict = data.gemini_prediction || 'Uncertain';
+        const geminiBadge = document.getElementById('gemini-badge');
+        geminiBadge.textContent = gemVerdict;
+        if (gemVerdict === 'Real') {
+          geminiBadge.className = 'badge bg-real';
+        } else if (gemVerdict === 'Fake') {
+          geminiBadge.className = 'badge bg-fake';
+        } else {
+          geminiBadge.className = 'badge bg-uncertain';
+        }
+        
+        document.getElementById('gemini-justification').textContent = data.gemini_justification || 'No justification response received from Gemini.';
+        document.getElementById('gemini-source').textContent = data.gemini_source || 'gemini-1.5-flash';
+
+        // Toggle Mismatch alert banner
+        const mismatchBanner = document.getElementById('mismatch-banner');
+        if (data.mismatch_flagged) {
+          mismatchBanner.style.display = 'block';
+          checkTrainingStatus();
+        } else {
+          mismatchBanner.style.display = 'none';
+        }
+
+        // Display results block
+        document.getElementById('result-card').style.display = 'block';
+
+        // Prepend history log
+        updateHistory(title, data.model_prediction, gemVerdict, data.mismatch_flagged);
+
+      } catch (err) {
+        alert('Failed to connect to backend: ' + err.message);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Verify Integrity';
+      }
+    });
+
+    function updateHistory(title, modelPred, gemPred, isMismatch) {
+      const historyDiv = document.getElementById('history');
+      
+      if (historyDiv.innerHTML.includes('No claim checks recorded')) {
+        historyDiv.innerHTML = '';
+      }
+
+      const card = document.createElement('div');
+      card.className = 'history-item';
+      
+      const badgeLocalClass = modelPred === 'Real' ? 'color: #10b981; font-weight: bold;' : 'color: #ef4444; font-weight: bold;';
+      const badgeGeminiClass = gemPred === 'Real' ? 'color: #10b981; font-weight: bold;' : (gemPred === 'Fake' ? 'color: #ef4444; font-weight: bold;' : 'color: #f59e0b; font-weight: bold;');
+      
+      card.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div style="font-weight: bold; color: #111827; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 80%;">${title}</div>
+          ${isMismatch ? '<span style="color: #f59e0b; font-weight: bold;" title="Prediction Mismatch">⚠️</span>' : ''}
+        </div>
+        <div style="font-size: 11px; color: #4b5563; margin-top: 5px;">
+          Model Verdict: <span style="${badgeLocalClass}">${modelPred}</span> | 
+          Gemini Verdict: <span style="${badgeGeminiClass}">${gemPred}</span>
+        </div>
+      `;
+      historyDiv.insertBefore(card, historyDiv.firstChild);
+    }
+
+    async function flagNews(correctLabel) {
+      const title = document.getElementById('title').value.trim();
+      const content = document.getElementById('content').value.trim();
+      const url = document.getElementById('url').value.trim();
+      const author = document.getElementById('author').value.trim();
+
+      if (!title) {
+        alert('Missing article claim to flag.');
+        return;
+      }
+
+      const confirmMsg = `Flag this claim as "${correctLabel}"? This will save the entry and start background model retraining.`;
+      if (!confirm(confirmMsg)) return;
+
+      try {
+        const resp = await fetch('/flag', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ title, content, url, author, label: correctLabel })
+        });
+        
+        const data = await resp.json();
+        
+        if (data.status === 'ok') {
+          alert(data.message);
+          checkTrainingStatus();
+        } else {
+          alert('Failed to flag news: ' + (data.message || 'Unknown error'));
+        }
+      } catch (err) {
+        alert('Error flagging news: ' + err.message);
+      }
+    }
+
+    async function checkTrainingStatus() {
+      try {
+        const resp = await fetch('/training-status');
+        const data = await resp.json();
+        
+        const widget = document.getElementById('training-widget');
+        const statusText = document.getElementById('status-text');
+        const statusBadge = document.getElementById('status-badge');
+
+        if (data.is_training) {
+          if (!isCurrentlyTraining) {
+            isCurrentlyTraining = true;
+            widget.className = 'status-banner training';
+            widget.style.borderLeftColor = '#f59e0b';
+            statusText.textContent = 'Active retraining in progress... Updating model with verified data.';
+            statusBadge.className = 'badge bg-uncertain';
+            statusBadge.textContent = 'RETRAINING';
+          }
+        } else {
+          if (isCurrentlyTraining) {
+            isCurrentlyTraining = false;
+            widget.className = 'status-banner';
+            widget.style.borderLeftColor = '#10b981';
+            statusText.textContent = 'Engine Ready. Classifier is fully trained.';
+            statusBadge.className = 'badge bg-real';
+            statusBadge.textContent = 'OPTIMIZED';
+            
+            alert('🎉 Retraining finished! The in-memory model weights have been reloaded successfully.');
+          }
+        }
+      } catch (err) {
+        console.error('Failed to fetch training status:', err);
+      }
+    }
+
+    function startPollingStatus() {
+      if (pollIntervalId) clearInterval(pollIntervalId);
+      pollIntervalId = setInterval(checkTrainingStatus, 4000);
+    }
+  </script>
+</body>
+</html>

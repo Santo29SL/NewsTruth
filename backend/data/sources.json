@@ -1,0 +1,47 @@
+[
+  {
+    "id": "badd5a36-8839-44fd-abe3-94240884d471",
+    "title": "Delhi's air quality slips into 'severe' category; several areas record AQI above 400",
+    "news_info": {
+      "status": "ok",
+      "source_name": "Not found",
+      "cross_reference_count": 0,
+      "articles": []
+    },
+    "articles": [],
+    "saved_at": "2025-11-09T07:14:48.496460"
+  },
+  {
+    "id": "6db1e478-73a5-40c4-88df-921798ab9d9c",
+    "title": "Test headline",
+    "news_info": {
+      "status": "ok",
+      "source_name": "Not found",
+      "cross_reference_count": 0,
+      "articles": []
+    },
+    "saved_at": "2025-11-09T09:53:07.839250"
+  },
+  {
+    "id": "604bd0f7-f617-4bcd-9b77-6ca0e6505b0d",
+    "title": "Test headline",
+    "news_info": {
+      "status": "ok",
+      "source_name": "Not found",
+      "cross_reference_count": 0,
+      "articles": []
+    },
+    "saved_at": "2025-11-09T10:03:52.986344"
+  },
+  {
+    "id": "9d401319-0cbc-446e-bf6f-edcc0bca70a3",
+    "title": "Delhi's air quality slips into 'severe' category; several areas record AQI above 400",
+    "news_info": {
+      "status": "ok",
+      "source_name": "Not found",
+      "cross_reference_count": 0,
+      "articles": []
+    },
+    "saved_at": "2025-11-09T10:06:06.111749"
+  }
+]
